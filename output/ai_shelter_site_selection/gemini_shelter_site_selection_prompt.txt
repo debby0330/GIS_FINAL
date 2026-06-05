@@ -1,0 +1,228 @@
+你是一位災害防救、避難所選址與空間風險分析顧問。
+
+以下資料為 schools_gdf 中篩選出的候選學校資料。
+目前只提供 school_risk_level 為 Low 或 Medium 的學校，作為潛在避難所候選點。
+
+你的任務是：
+依照 schools_gdf 的 school_name、school_risk_level、longitude、latitude 欄位，綜合評估並選出 5 個最推薦作為避難所選址的學校。
+
+選址時請特別考量：
+
+1. school_name：
+   - 作為候選避難所名稱。
+
+2. school_risk_level：
+   - Low 優先於 Medium。
+   - 但若 Medium 學校的位置分布較佳，或可補足空間服務範圍，也可以納入推薦。
+
+3. longitude / latitude：
+   - 必須考量 5 個推薦選址的位置分布。
+   - 5 個選址不應太過集中在相同區域。
+   - 請盡量選出空間上較分散、可提高避難服務涵蓋性的學校。
+   - 你只能根據 longitude 與 latitude 判斷相對位置，不可以自行發明未提供的道路、聚落或行政區資訊。
+
+接著，請依照以下欄位評估每個推薦避難所的主要弱點：
+
+1. Max_elevation：
+   - 用於判斷地形或高程相關弱點。
+   - 若數值偏高，請說明可能需要注意山區、坡地或交通可及性風險。
+
+2. Slope_risk_level：
+   - 用於判斷坡度風險。
+   - 若為 Medium 或 High，請說明坡地、邊坡或出入口安全可能需要加強。
+
+3. rain_1hr：
+   - 用於判斷短延時強降雨風險。
+   - 若雨量偏高，請建議加強排水、防淹、臨時集水或雨水導排設施。
+
+4. sigma_1hr：
+   - 用於判斷降雨推估不確定性。
+   - 若不確定性偏高，請建議加強即時雨量監測、預警通報與彈性應變。
+
+5. village_A65UP_CNT：
+   - 用於判斷當地高齡人口與避難服務需求。
+   - 若高齡人口數較高，請建議設置無障礙動線、輪椅通道、醫療急救區、慢性病藥品支援、休息區與照護人力配置。
+
+6. fusion_class / fusion_label：
+   - 用於判斷該點位對應的災害暴露類型或風險類別。
+   - 若 fusion_class 或 fusion_label 顯示存在災害暴露，請說明該避難所需要注意的風險與設施補強方向。
+
+7. debris_stream_level：
+   - 用於判斷土石流或潛勢溪流相關風險。
+   - 若為 Medium 或 High，請建議避免將主要避難空間設於低窪、溪流鄰近或邊坡敏感區，並加強疏散路線、警戒標示與撤離預案。
+
+請你根據每個學校的弱點，提出該學校應設置或優先確認的避難設施與場所，例如：
+- 室內大型避難空間
+- 操場或戶外集合空間
+- 無障礙動線與坡道
+- 雨水排水與防淹設施
+- 緊急照明與備援電力
+- 飲水、廁所與衛生設施
+- 醫療急救區
+- 高齡者休息與照護空間
+- 物資儲備區
+- 災害告示、疏散動線標示與集合點
+- 即時雨量監測或災害預警通報設備
+
+重要限制：
+- 你只能根據我提供的 schools_gdf 欄位進行判斷。
+- 不可以自行假設學校實際已經有操場、體育館、無障礙設施、飲水設備、廁所容量、備援電力或其他避難設備。
+- 所有避難設施與場所建議都必須寫成「建議設置」或「後續需確認」，不能寫成該學校已具備。
+- 不可以捏造不存在於資料中的設施條件。
+- 需要同時考量「風險等級較低」與「空間位置不要太聚集」。
+- 請清楚說明每個推薦地點的主要原因與主要弱點。
+- 請選出 5 個最適合設置為避難所的學校地點。
+- 請使用繁體中文回答。
+
+請依照以下格式回答：
+
+## 一、評估原則簡述
+請簡要說明你如何使用 school_name、school_risk_level、longitude、latitude 進行 5 個避難所選址推薦，並說明如何避免選址過度集中。
+
+## 二、推薦設置為避難所的 5 個學校地點
+請用表格呈現，欄位包含：
+排名、學校名稱、school_risk_level、longitude、latitude、主要推薦原因、主要弱點、建議設置或後續確認的避難設施與場所。
+
+## 三、各推薦地點詳細說明
+請逐一說明每個學校：
+1. 為什麼適合作為避難所候選點。
+2. 其空間位置在 5 個選址中的分布意義。
+3. 根據 Max_elevation、Slope_risk_level、rain_1hr、sigma_1hr、village_A65UP_CNT、fusion_class、fusion_label、debris_stream_level 判斷出的主要弱點。
+4. 對應應優先設置或確認的避難設施與場所。
+
+## 四、整體配置建議
+請說明這 5 個選址是否足夠分散，並提出後續若要優化避難所配置，應如何補充資料或檢查服務範圍。
+
+## 五、限制與後續建議
+請說明目前僅依 schools_gdf 欄位進行初步篩選，後續仍需現地確認哪些避難空間、逃生設備、管理條件與可及性條件。
+
+以下是候選學校資料 JSON：
+
+[
+  {
+    "school_name": "光華國小",
+    "school_risk_level": "Low",
+    "longitude": 121.5783,
+    "latitude": 23.9358,
+    "Max_elevation": 36.35,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 6.5514,
+    "sigma_1hr": 0.3152,
+    "village_A65UP_CNT": 425.0,
+    "fusion_class": 0,
+    "fusion_label": "無淹水",
+    "debris_stream_level": "Safe"
+  },
+  {
+    "school_name": "北昌國小",
+    "school_risk_level": "Low",
+    "longitude": 121.5917,
+    "latitude": 23.9871,
+    "Max_elevation": 21.25,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 4.2631,
+    "sigma_1hr": 0.3109,
+    "village_A65UP_CNT": 1532.0,
+    "fusion_class": 9,
+    "fusion_label": "SAR無資料",
+    "debris_stream_level": "Safe"
+  },
+  {
+    "school_name": "稻香國小",
+    "school_risk_level": "Medium",
+    "longitude": 121.5688,
+    "latitude": 23.9629,
+    "Max_elevation": 43.92,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 6.7467,
+    "sigma_1hr": 0.314,
+    "village_A65UP_CNT": 753.0,
+    "fusion_class": 9,
+    "fusion_label": "SAR無資料",
+    "debris_stream_level": "Safe"
+  },
+  {
+    "school_name": "花蓮特殊教育學校",
+    "school_risk_level": "Medium",
+    "longitude": 121.5845,
+    "latitude": 23.9714,
+    "Max_elevation": 24.39,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 5.1256,
+    "sigma_1hr": 0.3112,
+    "village_A65UP_CNT": 994.0,
+    "fusion_class": 9,
+    "fusion_label": "SAR無資料",
+    "debris_stream_level": "Safe"
+  },
+  {
+    "school_name": "宜昌國小",
+    "school_risk_level": "Medium",
+    "longitude": 121.5857,
+    "latitude": 23.9707,
+    "Max_elevation": 24.65,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 5.054,
+    "sigma_1hr": 0.3112,
+    "village_A65UP_CNT": 994.0,
+    "fusion_class": 9,
+    "fusion_label": "SAR無資料",
+    "debris_stream_level": "Safe"
+  },
+  {
+    "school_name": "花蓮高農畜產保健科",
+    "school_risk_level": "Medium",
+    "longitude": 121.5859,
+    "latitude": 23.9565,
+    "Max_elevation": 26.32,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 5.4906,
+    "sigma_1hr": 0.3125,
+    "village_A65UP_CNT": 1022.0,
+    "fusion_class": 9,
+    "fusion_label": "SAR無資料",
+    "debris_stream_level": "Safe"
+  },
+  {
+    "school_name": "宜昌國中",
+    "school_risk_level": "Medium",
+    "longitude": 121.5875,
+    "latitude": 23.972,
+    "Max_elevation": 21.77,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 4.8892,
+    "sigma_1hr": 0.311,
+    "village_A65UP_CNT": 994.0,
+    "fusion_class": 9,
+    "fusion_label": "SAR無資料",
+    "debris_stream_level": "Safe"
+  },
+  {
+    "school_name": "化仁國中",
+    "school_risk_level": "Medium",
+    "longitude": 121.5935,
+    "latitude": 23.9659,
+    "Max_elevation": 17.35,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 4.6831,
+    "sigma_1hr": 0.3121,
+    "village_A65UP_CNT": 1285.0,
+    "fusion_class": 9,
+    "fusion_label": "SAR無資料",
+    "debris_stream_level": "Safe"
+  },
+  {
+    "school_name": "化仁國小",
+    "school_risk_level": "Medium",
+    "longitude": 121.596,
+    "latitude": 23.9625,
+    "Max_elevation": 16.01,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 4.6518,
+    "sigma_1hr": 0.3132,
+    "village_A65UP_CNT": 1285.0,
+    "fusion_class": 9,
+    "fusion_label": "SAR無資料",
+    "debris_stream_level": "Safe"
+  }
+]
