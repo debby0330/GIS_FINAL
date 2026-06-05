@@ -1,0 +1,10 @@
+﻿school_name,school_risk_level,longitude,latitude,Max_elevation,Slope_risk_level,rain_1hr,sigma_1hr,village_A65UP_CNT,fusion_class,fusion_label,debris_stream_level
+光華國小,Low,121.5783,23.9358,36.35,Low,6.5514,0.3152,425.0,0,無淹水,Safe
+北昌國小,Low,121.5917,23.9871,21.25,Low,4.2631,0.3109,1532.0,9,SAR無資料,Safe
+稻香國小,Medium,121.5688,23.9629,43.92,Low,6.7467,0.314,753.0,9,SAR無資料,Safe
+花蓮特殊教育學校,Medium,121.5845,23.9714,24.39,Low,5.1256,0.3112,994.0,9,SAR無資料,Safe
+宜昌國小,Medium,121.5857,23.9707,24.65,Low,5.054,0.3112,994.0,9,SAR無資料,Safe
+花蓮高農畜產保健科,Medium,121.5859,23.9565,26.32,Low,5.4906,0.3125,1022.0,9,SAR無資料,Safe
+宜昌國中,Medium,121.5875,23.972,21.77,Low,4.8892,0.311,994.0,9,SAR無資料,Safe
+化仁國中,Medium,121.5935,23.9659,17.35,Low,4.6831,0.3121,1285.0,9,SAR無資料,Safe
+化仁國小,Medium,121.596,23.9625,16.01,Low,4.6518,0.3132,1285.0,9,SAR無資料,Safe

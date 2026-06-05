@@ -1,5 +1,5 @@
 *.env
-*.tiff
+*.tif
 *.gpkg
 *.shp
 *.dbf
