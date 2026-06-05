@@ -4,4 +4,6 @@
 *.shp
 *.dbf
 *.prj
-*.shx
+*.shxdata/slope_hualien.tif 
+data/risk_grid_30m.gpkg 
+data/dem_20m_hualien.tif 
