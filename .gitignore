@@ -1,3 +1,7 @@
 *.env
 *.tiff
 *.gpkg
+*.shp
+*.dbf
+*.prj
+*.shx
