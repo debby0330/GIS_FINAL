@@ -1,0 +1,326 @@
+你是一位災害防救、避難所選址與空間風險分析顧問。
+
+以下資料為 schools_gdf 中篩選出的候選學校資料。
+目前只提供 school_risk_level 為 Low 或 Medium 的學校，作為潛在避難所候選點。
+
+你的任務是：
+依照 schools_gdf 的 school_name、school_risk_level、longitude、latitude 欄位，綜合評估並選出 5 個最推薦作為避難所選址的學校。
+
+選址時請特別考量：
+
+1. school_name：
+   - 作為候選避難所名稱。
+
+2. school_risk_level：
+   - Low 優先於 Medium。
+   - 但若 Medium 學校的位置分布較佳，或可補足空間服務範圍，也可以納入推薦。
+
+3. longitude / latitude：
+   - 必須考量 5 個推薦選址的位置分布。
+   - 5 個選址不應太過集中在相同區域。
+   - 請盡量選出空間上較分散、可提高避難服務涵蓋性的學校。
+   - 你只能根據 longitude 與 latitude 判斷相對位置，不可以自行發明未提供的道路、聚落或行政區資訊。
+
+接著，請依照以下欄位評估每個推薦避難所的主要弱點：
+
+1. Max_elevation：
+   - 用於判斷地形或高程相關弱點。
+   - 若數值偏高，請說明可能需要注意山區、坡地或交通可及性風險。
+
+2. Slope_risk_level：
+   - 用於判斷坡度風險。
+   - 若為 Medium 或 High，請說明坡地、邊坡或出入口安全可能需要加強。
+
+3. rain_1hr：
+   - 用於判斷短延時強降雨風險。
+   - 若雨量偏高，請建議加強排水、防淹、臨時集水或雨水導排設施。
+
+4. sigma_1hr：
+   - 用於判斷降雨推估不確定性。
+   - 若不確定性偏高，請建議加強即時雨量監測、預警通報與彈性應變。
+
+5. village_A65UP_CNT：
+   - 用於判斷當地高齡人口與避難服務需求。
+   - 若高齡人口數較高，請建議設置無障礙動線、輪椅通道、醫療急救區、慢性病藥品支援、休息區與照護人力配置。
+
+6. fusion_class / fusion_label：
+   - 用於判斷該點位對應的災害暴露類型或風險類別。
+   - 若 fusion_class 或 fusion_label 顯示存在災害暴露，請說明該避難所需要注意的風險與設施補強方向。
+
+7. debris_stream_level：
+   - 用於判斷土石流或潛勢溪流相關風險。
+   - 若為 Medium 或 High，請建議避免將主要避難空間設於低窪、溪流鄰近或邊坡敏感區，並加強疏散路線、警戒標示與撤離預案。
+
+請你根據每個學校的弱點，提出該學校應設置或優先確認的避難設施與場所，例如：
+- 室內大型避難空間
+- 操場或戶外集合空間
+- 無障礙動線與坡道
+- 雨水排水與防淹設施
+- 緊急照明與備援電力
+- 飲水、廁所與衛生設施
+- 醫療急救區
+- 高齡者休息與照護空間
+- 物資儲備區
+- 災害告示、疏散動線標示與集合點
+- 即時雨量監測或災害預警通報設備
+
+重要限制：
+- 你只能根據我提供的 schools_gdf 欄位進行判斷。
+- 不可以自行假設學校實際已經有操場、體育館、無障礙設施、飲水設備、廁所容量、備援電力或其他避難設備。
+- 所有避難設施與場所建議都必須寫成「建議設置」或「後續需確認」，不能寫成該學校已具備。
+- 不可以捏造不存在於資料中的設施條件。
+- 需要同時考量「風險等級較低」與「空間位置不要太聚集」。
+- 請清楚說明每個推薦地點的主要原因與主要弱點。
+- 請選出 5 個最適合設置為避難所的學校地點。
+- 請使用繁體中文回答。
+
+請依照以下格式回答：
+
+## 一、評估原則簡述
+請簡要說明你如何使用 school_name、school_risk_level、longitude、latitude 進行 5 個避難所選址推薦，並說明如何避免選址過度集中。
+
+## 二、推薦設置為避難所的 5 個學校地點
+請用表格呈現，欄位包含：
+排名、學校名稱、school_risk_level、longitude、latitude、主要推薦原因、分布意義、主要弱點、建議設置或後續確認的避難設施與場所。
+
+## 三、各推薦地點詳細說明
+請逐一詳盡說明每個學校(大約2-3句話)：
+1. 為什麼適合作為避難所候選點。
+2. 其空間位置在 5 個選址中的分布意義。
+3. 根據 Max_elevation、Slope_risk_level、rain_1hr、sigma_1hr、village_A65UP_CNT、fusion_class、fusion_label、debris_stream_level 判斷出的主要弱點。
+4. 對應應優先設置或確認的避難設施與場所。
+
+## 四、整體配置建議
+請說明這 5 個選址是否足夠分散，並提出後續若要優化避難所配置，應如何補充資料或檢查服務範圍。
+
+## 五、限制與後續建議
+請說明目前僅依 schools_gdf 欄位進行初步篩選，後續仍需現地確認哪些避難空間、逃生設備、管理條件與可及性條件。
+
+以下是候選學校資料 JSON：
+
+[
+  {
+    "school_name": "長良國小",
+    "school_risk_level": "Low",
+    "longitude": 121.2863,
+    "latitude": 23.2845,
+    "Max_elevation": 252.33,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 19.844,
+    "sigma_1hr": 0.3083,
+    "village_A65UP_CNT": 138.0,
+    "fusion_class": NaN,
+    "fusion_label": NaN,
+    "debris_stream_level": "Low"
+  },
+  {
+    "school_name": "花蓮縣玉里鎮源城國民小學",
+    "school_risk_level": "Low",
+    "longitude": 121.2995,
+    "latitude": 23.3217,
+    "Max_elevation": 246.24,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 21.363,
+    "sigma_1hr": 0.3099,
+    "village_A65UP_CNT": 292.0,
+    "fusion_class": NaN,
+    "fusion_label": NaN,
+    "debris_stream_level": "Medium"
+  },
+  {
+    "school_name": "中城國小",
+    "school_risk_level": "Low",
+    "longitude": 121.3171,
+    "latitude": 23.3248,
+    "Max_elevation": 136.76,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 24.7164,
+    "sigma_1hr": 0.309,
+    "village_A65UP_CNT": 1273.0,
+    "fusion_class": NaN,
+    "fusion_label": NaN,
+    "debris_stream_level": "Low"
+  },
+  {
+    "school_name": "玉里國小",
+    "school_risk_level": "Low",
+    "longitude": 121.3191,
+    "latitude": 23.3286,
+    "Max_elevation": 130.52,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 25.6282,
+    "sigma_1hr": 0.3094,
+    "village_A65UP_CNT": 1273.0,
+    "fusion_class": NaN,
+    "fusion_label": NaN,
+    "debris_stream_level": "Low"
+  },
+  {
+    "school_name": "國立玉里高級中學",
+    "school_risk_level": "Low",
+    "longitude": 121.3198,
+    "latitude": 23.3458,
+    "Max_elevation": 141.76,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 28.2714,
+    "sigma_1hr": 0.3107,
+    "village_A65UP_CNT": 371.0,
+    "fusion_class": NaN,
+    "fusion_label": NaN,
+    "debris_stream_level": "Low"
+  },
+  {
+    "school_name": "春日國小",
+    "school_risk_level": "Low",
+    "longitude": 121.3926,
+    "latitude": 23.4522,
+    "Max_elevation": 95.75,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 29.3924,
+    "sigma_1hr": 0.3255,
+    "village_A65UP_CNT": 215.0,
+    "fusion_class": 0.0,
+    "fusion_label": "無淹水",
+    "debris_stream_level": "Safe"
+  },
+  {
+    "school_name": "德武國小",
+    "school_risk_level": "Low",
+    "longitude": 121.4053,
+    "latitude": 23.4662,
+    "Max_elevation": 166.59,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 20.9594,
+    "sigma_1hr": 0.3226,
+    "village_A65UP_CNT": 210.0,
+    "fusion_class": 0.0,
+    "fusion_label": "無淹水",
+    "debris_stream_level": "Safe"
+  },
+  {
+    "school_name": "花蓮縣立玉里國民中學",
+    "school_risk_level": "Medium",
+    "longitude": 121.3113,
+    "latitude": 23.3361,
+    "Max_elevation": 151.93,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 24.7426,
+    "sigma_1hr": 0.3104,
+    "village_A65UP_CNT": 443.0,
+    "fusion_class": NaN,
+    "fusion_label": NaN,
+    "debris_stream_level": "High"
+  },
+  {
+    "school_name": "大禹國小",
+    "school_risk_level": "Medium",
+    "longitude": 121.3288,
+    "latitude": 23.38,
+    "Max_elevation": 106.84,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 37.5393,
+    "sigma_1hr": 0.3102,
+    "village_A65UP_CNT": 271.0,
+    "fusion_class": NaN,
+    "fusion_label": NaN,
+    "debris_stream_level": "Medium"
+  },
+  {
+    "school_name": "樂合國小",
+    "school_risk_level": "Medium",
+    "longitude": 121.3397,
+    "latitude": 23.3208,
+    "Max_elevation": 191.79,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 29.4959,
+    "sigma_1hr": 0.3146,
+    "village_A65UP_CNT": 301.0,
+    "fusion_class": NaN,
+    "fusion_label": NaN,
+    "debris_stream_level": "Low"
+  },
+  {
+    "school_name": "三民國小",
+    "school_risk_level": "Medium",
+    "longitude": 121.3483,
+    "latitude": 23.4301,
+    "Max_elevation": 146.08,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 47.8661,
+    "sigma_1hr": 0.3124,
+    "village_A65UP_CNT": 241.0,
+    "fusion_class": 0.0,
+    "fusion_label": "無淹水",
+    "debris_stream_level": "Safe"
+  },
+  {
+    "school_name": "三民國中",
+    "school_risk_level": "Medium",
+    "longitude": 121.3497,
+    "latitude": 23.4328,
+    "Max_elevation": 139.07,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 47.6965,
+    "sigma_1hr": 0.3127,
+    "village_A65UP_CNT": 241.0,
+    "fusion_class": 0.0,
+    "fusion_label": "無淹水",
+    "debris_stream_level": "Safe"
+  },
+  {
+    "school_name": "觀音國小",
+    "school_risk_level": "Medium",
+    "longitude": 121.3569,
+    "latitude": 23.3944,
+    "Max_elevation": 199.53,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 48.0532,
+    "sigma_1hr": 0.3167,
+    "village_A65UP_CNT": 423.0,
+    "fusion_class": NaN,
+    "fusion_label": NaN,
+    "debris_stream_level": "Medium"
+  },
+  {
+    "school_name": "高寮國小",
+    "school_risk_level": "Medium",
+    "longitude": 121.3598,
+    "latitude": 23.3828,
+    "Max_elevation": 159.83,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 47.5998,
+    "sigma_1hr": 0.3183,
+    "village_A65UP_CNT": 423.0,
+    "fusion_class": NaN,
+    "fusion_label": NaN,
+    "debris_stream_level": "Medium"
+  },
+  {
+    "school_name": "玉東國中",
+    "school_risk_level": "Medium",
+    "longitude": 121.3711,
+    "latitude": 23.4172,
+    "Max_elevation": 122.23,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 46.1817,
+    "sigma_1hr": 0.324,
+    "village_A65UP_CNT": 342.0,
+    "fusion_class": 0.0,
+    "fusion_label": "無淹水",
+    "debris_stream_level": "High"
+  },
+  {
+    "school_name": "松浦國小",
+    "school_risk_level": "Medium",
+    "longitude": 121.3731,
+    "latitude": 23.4291,
+    "Max_elevation": 138.85,
+    "Slope_risk_level": "Low",
+    "rain_1hr": 43.4776,
+    "sigma_1hr": 0.3235,
+    "village_A65UP_CNT": 342.0,
+    "fusion_class": 0.0,
+    "fusion_label": "無淹水",
+    "debris_stream_level": "Low"
+  }
+]

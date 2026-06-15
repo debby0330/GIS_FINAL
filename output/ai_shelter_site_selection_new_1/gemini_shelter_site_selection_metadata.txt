@@ -1,0 +1,7 @@
+used_model=gemini-2.5-flash
+prompt_path=..\output\ai_shelter_site_selection_new_1\gemini_shelter_site_selection_prompt.txt
+response_path=..\output\ai_shelter_site_selection_new_1\gemini_shelter_site_selection_response.md
+candidate_csv_path=..\output\ai_shelter_site_selection_new_1\candidate_low_medium_schools_for_ai.csv
+candidate_json_path=..\output\ai_shelter_site_selection_new_1\candidate_low_medium_schools_for_ai.json
+candidate_school_count=16
+last_error=None
